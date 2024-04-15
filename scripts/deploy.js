@@ -7,15 +7,8 @@
 const hre = require("hardhat");
 
 async function main() {
-
-  const Upload = await hre.ethers.getContractFactory("Drive");
-  console.log("done1");
-  const upload = await Upload.deploy();
-  console.log("Done2");
-  await upload.deployed();
-  console.log(
-    "Library Deployed to: ",upload.address
-  );
+  const drive = await hre.ethers.deployContract("Drive");
+  console.log("Contract Address : ", await drive.getAddress());
 }
 
 // We recommend this pattern to be able to use async/await everywhere

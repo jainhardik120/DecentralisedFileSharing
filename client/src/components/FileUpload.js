@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from 'axios';
 import FormData from 'form-data';
 import './FileUpload.css';
-const FileUpload=({account,provider,contract})=>{
+const FileUpload=({account,contract})=>{
     //const JWT="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI0ZjE3ZDQ0MS1lOWIyLTRmOWEtYmQ4Ni05MjQyNTAwNmEyYzYiLCJlbWFpbCI6ImthcnRpa3NyaTE5MTFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjNmMzA0MjkzNDNjM2Y2ZWQzMDgyIiwic2NvcGVkS2V5U2VjcmV0IjoiYjNhMTkxZDgyNzFkMzgzY2QyMDQ1MWI3YmVkZTAxMWE2YjNiZGRhMzJlNzE5ZDI3OTkzNmQ2MjBhOTliMjUxMyIsImlhdCI6MTcxMzA5OTk2NX0.lxO4kBVAduu66q52VCoSamCRnMPhPBrr6MBuCQVFmnc";
     const [file,setFile]=useState(null);
     const [fileName,setFileName]=useState('No file Selected');
@@ -28,7 +28,8 @@ const FileUpload=({account,provider,contract})=>{
                 });
                 const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
                 //after uploading file to ipfs , you need the hash stored in your contract to access that fie in the future
-                contract.uploadFile(ImgHash+"$"+fileName);
+                const transaction = await contract.uploadFile(ImgHash+"$"+fileName);
+                await transaction.wait();
                 alert("File uploaded Successfully");
                 //after image uploaded go back to default state;
                 setFileName("No File selected");
@@ -57,7 +58,7 @@ const FileUpload=({account,provider,contract})=>{
                 Choose File
             </label>
             <input disabled={!account} type="file" id="file-upload" name="data" onChange={retrieveFile}/>
-            <span className="textArea">Image:{fileName}</span>
+            <span className="textArea">File:{fileName}</span>
             <button type="submit" className="upload" disabled={!file}>Upload File</button>
         </form>
     </div>;

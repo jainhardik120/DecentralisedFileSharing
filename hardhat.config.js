@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 require("@nomicfoundation/hardhat-toolbox");
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -9,6 +10,10 @@ module.exports = {
       gas: 2100000,
       gasPrice: 8000000000,
     },
+    sepolia: {
+      url: `${process.env.ALCHEMY_SEPOLIA_URL}`,
+      accounts: [`0x${process.env.SEPOLIA_PRIVATE_KEY}`],
+    }
   },
   paths:{
     artifacts:"./client/src/artifacts",

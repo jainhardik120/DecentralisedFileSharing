@@ -11,24 +11,24 @@ contract Drive {
     mapping(string => address[]) public access;
     mapping(address => string[]) public sharedFiles;
     
-    function uploadFile(string memory url) external  {
+    function uploadFile(string memory url) public  {
         fileOwners[url] = msg.sender;
         ownedFiles[msg.sender].push(url);
     }
 
-    function viewOwnedFiles() external view returns(string[] memory){
+    function viewOwnedFiles() public view returns(string[] memory){
         return ownedFiles[msg.sender];
     }
 
-    function viewSharedFiles() external view returns(string[] memory){
+    function viewSharedFiles() public view returns(string[] memory){
         return sharedFiles[msg.sender];
     }
 
-    function viewAccessList(string memory file) external view returns(address[] memory){
+    function viewAccessList(string memory file) public view returns(address[] memory){
         return access[file];
     }
 
-    function transfer(address newOwner, string memory file) external {
+    function transfer(address newOwner, string memory file) public {
         require(msg.sender==fileOwners[file], "You are not the owner of file");
         fileOwners[file] = newOwner;
         uint index = 0;
@@ -47,13 +47,13 @@ contract Drive {
         ownedFiles[newOwner].push(file);
     }
 
-    function shareFile(address user, string memory file) external {
+    function shareFile(address user, string memory file) public {
         require(msg.sender==fileOwners[file], "You are not the owner of file");
         access[file].push(user);
         sharedFiles[user].push(file);
     }
 
-    function revokeAccess(address user, string memory file) external {
+    function revokeAccess(address user, string memory file) public {
         require(msg.sender==fileOwners[file], "You are not the owner of file");
         uint index = 0;
         bool found = false;
