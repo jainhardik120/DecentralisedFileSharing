@@ -20,6 +20,12 @@ function App() {
     window.ethereum.on("accountsChanged", connectWallet);
   }, []);
 
+  const [isActive, setIsActive] = useState(false);
+
+  const toggleState = () => {
+    setIsActive(!isActive);
+  };
+
   const connectWallet = async () => {
     try {
       const web3modal = new Web3Modal({ cacheProvider: true });
@@ -36,14 +42,34 @@ function App() {
   return (
     <>
       <div className="App">
-        <h1 style={{ color: "white" }}>Gdrive 5.0</h1>
-        <div className="bg"></div>
-        <div className="bg bg2"></div>
-        <div className="bg bg3"></div>
-        <p style={{ color: "white" }}>Account: {address ? address : "Please connect Metamask"}</p>
-        {/* TO upload a file, you need the account and provider=> pass them as props */}
-        <FileUpload account={address} contract={contract} ></FileUpload>
+        <nav>
+          <input type="checkbox" id="sidebar-active" />
+          <label htmlFor="sidebar-active" className='open-sidebar-button'>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" /></svg>
+          </label>
+          <label id="overlay" htmlFor="sidebar-active">
+          </label>
+          <div className="links-container">
+            <label htmlFor="sidebar-active"
+              className='close-sidebar-button'>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+            </label>
+            <a className="home-link" href="/">DxDrive2.0</a>
+            <p>
+              {address ? address : "Connect Wallet"}
+            </p>
+            <a href="/">Github</a>
+            <a href="/">Social</a>
+            <a href="/">Help</a>
+          </div>
+        </nav>
+        {isActive && (
+          <FileUpload account={address} contract={contract} onClose={toggleState} ></FileUpload>
+        )}
         <Display account={address} contract={contract} ></Display>
+        <div className={`floating-action-button ${isActive ? 'active' : ''}`} onClick={toggleState}>
+          <span className="icon">+</span>
+        </div>
       </div>
     </>
   );

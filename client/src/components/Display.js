@@ -18,16 +18,17 @@ const Display = ({ account, contract }) => {
       })
     })
   }
+  async function getData() {
+    setMyFiles(convertData(await contract.viewOwnedFiles()));
+    setSharedFiles(convertData(await contract.viewSharedFiles()));
+  }
   useEffect(() => {
-    async function getData() {
-      setMyFiles(convertData(await contract.viewOwnedFiles()));
-      setSharedFiles(convertData(await contract.viewSharedFiles()));
-    }
     if (account) {
       getData();
     }
   }, [account, contract]);
   const [accessPopupOpen, setaccessPopupOpen] = useState(false);
+  const [transferPopupOpen, setTransferPopupOpen] = useState(false);
   const [accessSelectedFile, setAccessSelectedFile] = useState("");
   useEffect(() => {
     async function getSharedList() {
@@ -47,6 +48,11 @@ const Display = ({ account, contract }) => {
     setaccessPopupOpen(true);
   }
 
+  const openTransferPopup = (index) => {
+    setAccessSelectedFile(`${myFiles[index].url}$${myFiles[index].name}`);
+    setTransferPopupOpen(true);
+  }
+
   const [address, setaddress] = useState("");
   const sharing = async () => {
     try {
@@ -61,6 +67,20 @@ const Display = ({ account, contract }) => {
       console.error(error);
     }
   };
+  const transfer = async () => {
+    try {
+      if (address.length === 0) {
+        throw Error("Error !");
+      }
+      const transaction = await contract.transfer(address, accessSelectedFile);
+      await transaction.wait();
+      alert("File Transferred Successfully");
+      getData();
+    } catch (error) {
+      alert("Please Enter some Address!");
+      console.error(error);
+    }
+  }
   const revokeAccess = async (address) => {
     const transaction = await contract.revokeAccess(address, accessSelectedFile);
     await transaction.wait();
@@ -71,7 +91,7 @@ const Display = ({ account, contract }) => {
   }
   return (
     <>
-      {accessPopupOpen && <div className="popup-container">
+      {accessPopupOpen && <div className="popup-background">
         <div className="popup">
           <button onClick={() => {
             setaccessPopupOpen(false);
@@ -92,28 +112,50 @@ const Display = ({ account, contract }) => {
           <button onClick={sharing}>Share</button>
         </div>
       </div>}
-
-      <div>
-        <p>Your Files : </p>
-        {myFiles && myFiles.map((item, i) => {
-          return (<>
-            <p>
-              <a href={item.url}>{item.name}</a>
-              <button onClick={() => {
-                openPopup(i);
-              }}>Modify Access</button>
-            </p>
-          </>)
-        })}
-        <p>Shared Files : </p>
-        {sharedFiles && sharedFiles.map((item, i) => {
-          return (<>
-            <p>
-              <a href={item.url}>{item.name}</a>
-            </p>
-          </>)
-        })}
+      {transferPopupOpen && <div className="popup-background">
+        <div className="popup">
+          <button onClick={() => {
+            setTransferPopupOpen(false);
+          }}>Close</button>
+          <input type="text" className="address" placeholder='Enter address to transfer to' value={address} onChange={onChange} />
+          <button onClick={transfer}>Transfer</button>
+        </div>
+      </div>}
+      <div className="file-container">
+        <p>Your Files:</p>
+        {myFiles &&
+          myFiles.map((item, i) => {
+            return (
+              <div key={i} className="file-link">
+                <p>{item.name}</p>
+                <div className="dropdown">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" /></svg>
+                  <div className="dropdown-content">
+                    <button onClick={() => {
+                      openPopup(i);
+                    }}>Modify Access</button>
+                    <br />
+                    <button>Download</button>
+                    <br />
+                    <button onClick={() => {
+                      openTransferPopup(i);
+                    }}>Transfer Ownership</button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        <p>Shared Files:</p>
+        {sharedFiles &&
+          sharedFiles.map((item, i) => {
+            return (
+              <div key={i} className="file-link">
+                <a href={item.url}>{item.name}</a>
+              </div>
+            );
+          })}
       </div>
+
     </>
   );
 }
