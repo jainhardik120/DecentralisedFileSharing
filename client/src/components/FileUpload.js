@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from 'axios';
 import FormData from 'form-data';
 import './FileUpload.css';
+import uploadlogo from '../upload-icon.svg'
 const FileUpload = ({ account, contract, onClose }) => {
 	const [file, setFile] = useState(null);
 	const [fileName, setFileName] = useState('No file Selected');
@@ -41,10 +42,13 @@ const FileUpload = ({ account, contract, onClose }) => {
 		<div className="popup-background">
 			<div className="popup">
 				<form className="form" onSubmit={handleSubmit}>
-					<label className="choose">
-						<span className="text-gray-700">Choose File</span>
-						<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
-					</label>
+				<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
+				<label for="file-upload" className="custom-file-upload">
+				
+				<img style={{marginLeft:"300px",width:"30%"}}src={uploadlogo} alt="" />
+				</label>
+				<p className="file-name">{fileName}</p>
+				
 					<div style={{ "display": "flex", "flexDirection": "column", "alignContent": "flex-end" }}>
 						<button type="submit" className="upload" disabled={!file}>Upload File</button>
 					</div>

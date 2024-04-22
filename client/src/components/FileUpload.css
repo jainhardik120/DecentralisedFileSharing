@@ -1,8 +1,12 @@
+
 .choose{
     display: block;
 }
 
 .image-input {
+    margin: auto;
+    border: 1px solid black;
+    padding: 50px 50px;
     border-width: 1px;
     border-radius: 6px;
 }
@@ -24,4 +28,19 @@
 
 .upload:hover{
     background: var(--accent-color);
+}
+input[type="file"]
+{
+    display:none;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-left: 65px;
+}
+p.file-name{
+    font-weight: 200;
+    font-size: 30px;
+    margin-left: 435px;
 }

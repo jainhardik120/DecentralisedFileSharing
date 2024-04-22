@@ -15,10 +15,20 @@
   position: relative;
   border-radius: 8px;
   margin: auto;
-  top: 50%;
+  top: 30%;
   width: 70%;
 }
 
+.close-btn{
+  position: absolute;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  background-color: red;
+  color:white;
+  right: 5px;
+  top:4px;
+}
 input[type="text"]:focus {
   background-color: lightblue;
 }
@@ -65,4 +75,9 @@ input[type="text"]:focus {
 .dropdown-content button:hover {
   background-color: var(--accent-color);
   color: var(--text-color);
+}
+.address{
+  padding: 10px 25px;
+  border-radius: 10px;
+  margin-right: 10px;
 }

@@ -1,5 +1,5 @@
 nav {
-  height: 60px;
+  height: 80px;
   background-color: var(--color-1);
   display: flex;
   justify-content: flex-end;
@@ -12,6 +12,8 @@ nav {
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-weight: 200;
+  font-size: 22px;
 }
 
 nav a,
@@ -27,6 +29,16 @@ nav p {
 nav p {
   margin-left: auto;
   margin-right: auto;
+}
+p.help{
+  margin: 0;
+
+}
+p.help:hover{
+  background-color: var(--accent-color);
+}
+p.home-link{
+  margin:0;
 }
 
 nav a:hover {
@@ -63,13 +75,14 @@ nav svg {
     width: 300px;
     background-color: var(--color-1);
     box-shadow: -5px 0 5px rgba(0, 0, 0, 0.25);
-
     transition: 0.75s ease-out;
   }
-
-  nav p {
+  .addr{
     display: none;
   }
+/*   nav p {
+    display: none;
+  } */
 
   nav a {
     box-sizing: border-box;
@@ -97,8 +110,15 @@ nav svg {
     left: 0;
     z-index: 9;
   }
-}
+  p.help{
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 20px 30px;
+    justify-content: flex-start;
+  }
 
+}
 
 .popup-background{
   position: fixed;
@@ -133,4 +153,29 @@ nav svg {
 
 .floating-action-button .icon {
   font-size: 24px;
+}
+
+.logo{
+  width: 50px;
+}
+.connect-btn{
+  padding: 10px 25px;
+  border:none;
+  background-color: rgb(52, 51, 51);
+  color: white;
+  font-size: 22px;
+  border-radius: 10px;
+}
+.share-btn
+{
+  text-align: center;
+  margin-top: 10px;
+}
+.pop-btn
+{
+  padding: 10px 25px;
+  border:none;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
 }

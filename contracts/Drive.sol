@@ -30,6 +30,7 @@ contract Drive {
 
     function transfer(address newOwner, string memory file) public {
         require(msg.sender==fileOwners[file], "You are not the owner of file");
+        revokeAccess(newOwner,file);
         fileOwners[file] = newOwner;
         uint index = 0;
         bool found = false;
@@ -45,6 +46,7 @@ contract Drive {
         ownedFiles[msg.sender][index] = ownedFiles[msg.sender][ownedFiles[msg.sender].length-1];
         ownedFiles[msg.sender].pop();
         ownedFiles[newOwner].push(file);
+
     }
 
     function shareFile(address user, string memory file) public {
