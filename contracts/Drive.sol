@@ -5,13 +5,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Drive {
     using Strings for string;
-
     mapping(string => address) public fileOwners;
     mapping(address => string[]) public ownedFiles;
-
     mapping(string => address[]) public access;
     mapping(address => string[]) public sharedFiles;
-
+    
     function uploadFile(string memory url) public {
         fileOwners[url] = msg.sender;
         ownedFiles[msg.sender].push(url);

@@ -40,15 +40,17 @@ const FileUpload = ({ account, contract, onClose }) => {
 	}
 	return (
 		<div className="popup-background">
-			<div className="popup">
+			<div className="popup" style={{textAlign:"center"}}>
 				<form className="form" onSubmit={handleSubmit}>
-				<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
-				<label for="file-upload" className="custom-file-upload">
-				
-				<img style={{marginLeft:"300px",width:"30%"}}src={uploadlogo} alt="" />
-				</label>
-				<p className="file-name">{fileName}</p>
-				
+
+					<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
+
+					<label for="file-upload" className="custom-file-upload">
+						<img style={{  width: "30%" }} src={uploadlogo} alt="" />
+					</label>
+
+					<p className="file-name">{fileName}</p>
+
 					<div style={{ "display": "flex", "flexDirection": "column", "alignContent": "flex-end" }}>
 						<button type="submit" className="upload" disabled={!file}>Upload File</button>
 					</div>
