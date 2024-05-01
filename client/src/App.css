@@ -87,9 +87,6 @@ nav svg {
   .addr{
     display: none;
   }
-/*   nav p {
-    display: none;
-  } */
 
   nav a {
     box-sizing: border-box;
@@ -186,11 +183,6 @@ nav svg {
   color: white;
   border-radius: 10px;
 }
-/* 
-
-.bigImage{
-  width: 70%;
-} */
 
 div img {
   display: block;

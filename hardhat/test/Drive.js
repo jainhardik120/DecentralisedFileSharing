@@ -19,11 +19,14 @@ describe("Drive", function () {
         [owner, otherAccount, otherAccount2] = await ethers.getSigners();
     })
 
-    it("Test Upload File", async () => {
-        await drive.uploadFile("https://some-token.uri/");
-        const list = await drive.viewOwnedFiles();
-        expect(list[0]).to.equal("https://some-token.uri/");
-    });
+    describe("Upload Functionality", function () {
+        it("Test Upload File", async () => {
+            await drive.uploadFile("https://some-token.uri/");
+            const list = await drive.viewOwnedFiles();
+            expect(list[0]).to.equal("https://some-token.uri/");
+        });
+    })
+
 
     describe("Test Transfer File", function () {
 

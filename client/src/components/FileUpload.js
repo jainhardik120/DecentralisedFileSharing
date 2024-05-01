@@ -3,12 +3,15 @@ import axios from 'axios';
 import FormData from 'form-data';
 import './FileUpload.css';
 import uploadlogo from '../upload-icon.svg'
+
 const FileUpload = ({ account, contract, onClose }) => {
 	const [file, setFile] = useState(null);
 	const [fileName, setFileName] = useState('No file Selected');
+	const [fileUploading, setfileUploading] = useState(true);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (file) {
+			setfileUploading(true);
 			try {
 				const formData = new FormData();
 				formData.append("file", file);
@@ -31,6 +34,7 @@ const FileUpload = ({ account, contract, onClose }) => {
 			} catch (error) {
 				alert("Unable to upload file to pinata", error);
 			}
+			setfileUploading(false);
 		}
 	};
 	const retrieveFile = (e) => {
@@ -39,24 +43,31 @@ const FileUpload = ({ account, contract, onClose }) => {
 		setFileName(e.target.files[0].name);
 	}
 	return (
-		<div className="popup-background">
-			<div className="popup" style={{textAlign:"center"}}>
-				<form className="form" onSubmit={handleSubmit}>
+		<>
+			<div className="popup-background">
+				<div className="popup" style={{ textAlign: "center" }}>
+					{fileUploading && (<>
+						<div className="loading-container">
+							<div className="loading-icon"></div>
+							<p className="loading-text">Uploading file</p>
+						</div>
+					</>)}
+					{!fileUploading && (
+						<form className="form" onSubmit={handleSubmit}>
+							<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
+							<label for="file-upload" className="custom-file-upload">
+								<img style={{ width: "30%" }} src={uploadlogo} alt="" />
+							</label>
 
-					<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
+							<p className="file-name">{fileName}</p>
 
-					<label for="file-upload" className="custom-file-upload">
-						<img style={{  width: "30%" }} src={uploadlogo} alt="" />
-					</label>
-
-					<p className="file-name">{fileName}</p>
-
-					<div style={{ "display": "flex", "flexDirection": "column", "alignContent": "flex-end" }}>
-						<button type="submit" className="upload" disabled={!file}>Upload File</button>
-					</div>
-				</form>
+							<div style={{ "display": "flex", "flexDirection": "column", "alignContent": "flex-end" }}>
+								<button type="submit" className="upload" disabled={!file}>Upload File</button>
+							</div>
+						</form>)}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 export default FileUpload;
