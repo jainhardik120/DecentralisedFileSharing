@@ -7,12 +7,13 @@ import Display from './components/Display';
 import Drive from "./artifacts/contracts/Drive.sol/Drive.json"
 import Navbar from './components/Navbar';
 import Help from './components/Help';
+
+
 function App() {
   const [signer, setSigner] = useState(null);
   const [address, setAddress] = useState(null);
 
   const CONTRACT_ADDRESS = "0x3386ac1Cc99CDAB80C31b634c42A1d378aF5bAcB"
-  // const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
   const contract = new Contract(CONTRACT_ADDRESS, Drive.abi, signer);
   useEffect(() => {
@@ -43,18 +44,17 @@ function App() {
   return (
     <>
       <div className="App">
-        <Navbar address={address} connect={connectWallet} setactiveLink={setactiveLink}/>
+        <Navbar address={address} connect={connectWallet} setactiveLink={setactiveLink} />
         {isActive && (
           <FileUpload account={address} contract={contract} onClose={toggleState} ></FileUpload>
         )}
-        {activeLink?(<Help/>):(<>
+        {activeLink ? (<Help />) : (<>
           <Display account={address} contract={contract} ></Display>
-        <div className={`floating-action-button ${isActive ? 'active' : ''}`} onClick={toggleState}>
-          <span className="icon">+</span>
-        </div>
+          <div className={`floating-action-button ${isActive ? 'active' : ''}`} onClick={toggleState}>
+            <span className="icon">+</span>
+          </div>
         </>
         )}
-        
       </div>
     </>
   );
