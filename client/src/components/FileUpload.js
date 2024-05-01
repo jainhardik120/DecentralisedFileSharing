@@ -7,7 +7,7 @@ import uploadlogo from '../upload-icon.svg'
 const FileUpload = ({ account, contract, onClose }) => {
 	const [file, setFile] = useState(null);
 	const [fileName, setFileName] = useState('No file Selected');
-	const [fileUploading, setfileUploading] = useState(true);
+	const [fileUploading, setfileUploading] = useState(false);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (file) {
