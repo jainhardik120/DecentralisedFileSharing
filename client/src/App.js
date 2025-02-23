@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserProvider, Contract } from 'ethers';
+import {BrowserProvider, Contract} from 'ethers';
 import Web3Modal from "web3modal";
 import FileUpload from './components/FileUpload';
 import Display from './components/Display';
@@ -18,14 +18,16 @@ function App() {
   const contract = new Contract(CONTRACT_ADDRESS, Drive.abi, signer);
   useEffect(() => {
     const web3modal = new Web3Modal();
-    if (web3modal.cachedProvider) connectWallet();
+    if (web3modal.cachedProvider) {
+      connectWallet();
+    }
     window.ethereum.on("accountsChanged", connectWallet);
   }, []);
 
-  const [isActive, setIsActive] = useState(false);
-  const [activeLink, setactiveLink] = useState(false);
+  const [uploadFileDialog, setUploadFileDialog] = useState(false);
+  const [activeLink, setActiveLink] = useState(false);
   const toggleState = () => {
-    setIsActive(!isActive);
+    setUploadFileDialog(!uploadFileDialog);
   };
 
   const connectWallet = async () => {
@@ -44,13 +46,13 @@ function App() {
   return (
     <>
       <div className="App">
-        <Navbar address={address} connect={connectWallet} setactiveLink={setactiveLink} />
-        {isActive && (
+        <Navbar address={address} connect={connectWallet} setactiveLink={setActiveLink} />
+        {uploadFileDialog && (
           <FileUpload account={address} contract={contract} onClose={toggleState} ></FileUpload>
         )}
         {activeLink ? (<Help />) : (<>
           <Display account={address} contract={contract} ></Display>
-          <div className={`floating-action-button ${isActive ? 'active' : ''}`} onClick={toggleState}>
+          <div className={`floating-action-button ${uploadFileDialog ? 'active' : ''}`} onClick={toggleState}>
             <span className="icon">+</span>
           </div>
         </>

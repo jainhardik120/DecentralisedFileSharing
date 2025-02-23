@@ -2,16 +2,16 @@ import { useState } from "react";
 import axios from 'axios';
 import FormData from 'form-data';
 import './FileUpload.css';
-import uploadlogo from '../upload-icon.svg'
+import UploadLogo from '../upload-icon.svg'
 
 const FileUpload = ({ account, contract, onClose }) => {
 	const [file, setFile] = useState(null);
 	const [fileName, setFileName] = useState('No file Selected');
-	const [fileUploading, setfileUploading] = useState(false);
+	const [fileUploading, setFileUploading] = useState(false);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (file) {
-			setfileUploading(true);
+			setFileUploading(true);
 			try {
 				const formData = new FormData();
 				formData.append("file", file);
@@ -34,7 +34,7 @@ const FileUpload = ({ account, contract, onClose }) => {
 			} catch (error) {
 				alert("Unable to upload file to pinata", error);
 			}
-			setfileUploading(false);
+			setFileUploading(false);
 		}
 	};
 	const retrieveFile = (e) => {
@@ -56,7 +56,7 @@ const FileUpload = ({ account, contract, onClose }) => {
 						<form className="form" onSubmit={handleSubmit}>
 							<input disabled={!account} className="image-input" type="file" id="file-upload" name="data" onChange={retrieveFile} />
 							<label for="file-upload" className="custom-file-upload">
-								<img style={{ width: "30%" }} src={uploadlogo} alt="" />
+								<img style={{ width: "30%" }} src={UploadLogo} alt="" />
 							</label>
 
 							<p className="file-name">{fileName}</p>
